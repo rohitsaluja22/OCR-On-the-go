@@ -9,12 +9,12 @@ Rohit Saluja <rohitsaluja22@gmail.com>
 ## Requirements
 1. Copy the attention_ocr code from https://github.com/tensorflow/models/tree/master/research/attention_ocr to your PC
 
-2. Install tensorflow 1.4.1 with pip
+2. Install tensorflow 1.1.0 with pip
 ```
 virtualenv --system-site-packages ~/.multi_head
 source ~/.tensorflow/bin/activate
 pip install --upgrade pip
-pip install --upgrade tensorflow-gpu==1.4.1
+pip install --upgrade tensorflow-gpu==1.1.0
 ```
 
 3. Copy files for multi-head attention and dropout from this repo to appropriate locations:
