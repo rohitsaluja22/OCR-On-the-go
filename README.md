@@ -1,11 +1,11 @@
 ## OCR On-the-go
-## Code for ICDAR 2019 Paper: "OCR On-the-Go: Robust End-to-end Systems for Reading License Plates and Street Signs", Rohit Saluja, Ayush Maheshwari, Ganesh Ramakrishnan, Parag Chaudhuri, and Mark Carman, International Conference on Document Analysis and Recognition (ICDAR) 2019, Sydney, Australia.	
-
+## Code for ICDAR 2019 Paper: "OCR On-the-Go: Robust End-to-end Systems for Reading License Plates and Street Signs".
 ## Contacts
 
 Authors:
-Rohit Saluja <rohitsaluja22@gmail.com>
-Ayush Maheshwari <ayush.hakmn@gmail.com>
+Rohit Saluja <rohitsaluja22@gmail.com>,
+Ayush Maheshwari <ayush.hakmn@gmail.com>,
+ Ganesh Ramakrishnan, Parag Chaudhuri, and Mark Carman
 ## Requirements
 1. Copy the attention_ocr code from https://github.com/tensorflow/models/tree/master/research/attention_ocr to your PC
 
