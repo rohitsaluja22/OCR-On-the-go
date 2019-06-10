@@ -1,4 +1,4 @@
-## OCR-On-the-go
+## OCR On-the-go
 ## For ICDAR 2019 Paper on End-to-end License Plate and Scene Text Recognition with multi-head attention models
 
 ## Contacts
