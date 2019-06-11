@@ -14,8 +14,8 @@ Ayush Maheshwari <ayush.hakmn@gmail.com>,
 virtualenv --system-site-packages ~/.multi_head
 (try -p /usr/bin/python2.7 instead of --system-site-packages if default is python3.x)
 source ~/.multi_head/bin/activate
-pip2.7 install --upgrade pip
-pip2.7 install --upgrade tensorflow-gpu==1.1.0
+pip install --upgrade pip
+pip install --upgrade tensorflow-gpu==1.1.0
 ```
 
 3. Copy files for multi-head attention and dropout from this repo to appropriate locations:
