@@ -57,16 +57,17 @@ download fonts from https://www.fontspace.com/category/license%20plate and save 
 cd SynthText/data/newsgroup/
 cp newsgroup.txt newsgroupCopy.txt
 wget 
-cp NPRSynthText/newsgroup.txt SynthText/data/newsgroup/newsgroup.txt
 cp SynthText/data/fonts/fontlist.txt SynthText/data/fonts/fontlistCopy.txt
 cp NPRSynthText/fontlist.txt SynthText/data/fonts/
-cd SynthText/
-python3 prep_scripts/update_freq.py #for updating counts for newsgroup.txt related to NPR, if it does not work move update_freq.py to SynthText/ and try running it from there
-python3 invert_font_size.py
+cp NPRSynthText/ExtractSinglePlates.py SynthText/
 cp SynthText/gen.py SynthText/genCopy.py
-cp NPRSynthText/gen.py SynthText/
 cp SynthText/text_utils.py SynthText/text_utilsCopy.py
 cp NPRSynthText/text_utils.py SynthText/
+cp NPRSynthText/gen.py SynthText/
+cd SynthText/
+cp NPRSynthText/newsgroup.txt SynthText/data/newsgroup/newsgroup.txt
+python3 prep_scripts/update_freq.py #for updating counts for newsgroup.txt related to NPR, if it does not work move update_freq.py to SynthText/ and try running it from there
+python3 invert_font_size.py
 python3 gen.py # this will generate results/SynthNPR.h5, with each scene having multiple-license plate numbers
 mkdir SinglePlates
 python3 ExtractSinglePlates.py# to generate scenes of size 480 X 260 each with single license plate, and annotations will be stored in 
