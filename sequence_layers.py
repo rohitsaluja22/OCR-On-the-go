@@ -43,10 +43,10 @@ import numpy as np
 import tensorflow as tf
 
 from tensorflow.contrib import slim
-
+#4 lines added for OCR-on-the-go: for multi-head attention and inception_resnet_v2
 global num_heads
 global attention_feature_vector_size
-attention_feature_vector_size = 1088
+attention_feectoature_vr_size = 1088#For OCR-on-the-go: use attention_feature_vector_size = 288 if using inception_v3 (default encoder for attention_ocr)
 num_heads = 8
 
 def orthogonal_initializer(shape, dtype=tf.float32, *args, **kwargs):
@@ -258,7 +258,7 @@ class SequenceLayerBase(object):
           cell_clip=self._mparams.lstm_state_clip_value,
           state_is_tuple=True,
           initializer=orthogonal_initializer)
-      #Added dropout 
+      #3 lines added for OCR-on-the-go, for dropout during training stage :-
       if self.is_training():
         lstm_cell = tf.contrib.rnn.DropoutWrapper(lstm_cell, input_keep_prob=1.0, output_keep_prob=0.5, state_keep_prob=1.0)
         print("Dropuout set to ", 1 , "and output keep to ",  0.5)
@@ -382,7 +382,8 @@ class Attention(SequenceLayerBase):
         attention_states=self._net,
         cell=cell,
         loop_function=self.get_input,
-        attention_feature_vector_size= attention_feature_vector_size, num_heads=num_heads)
+        attention_feature_vector_size= attention_feature_vector_size, num_heads=num_heads)#modified for OCR-on-the-go: for multi-head attention
+
 
 
 class AttentionWithAutoregression(Attention):
