@@ -625,7 +625,7 @@ def attention_decoder(decoder_inputs,
                                [-1, attn_length, 1, attn_size])
     hidden_features = []
     v = []
-    #num_heads  #added by Ayush
+    #11 lines added for OCR-on-the-go for split multi-head attention
     #attention_feature_vector_size
     attention_vec_size = attn_size  # Size of query vectors for attention.
     hidden_p1 = hidden[:,:,:,:attention_feature_vector_size]
@@ -634,7 +634,6 @@ def attention_decoder(decoder_inputs,
     hidden_att_loc =[] 
     for a in xrange(num_heads):
       hidden_att_loc.append(tf.concat([hidden_p1_temp[a], hidden_p2], axis=3))
-    
 
     attn_size = hidden_att_loc[0].get_shape()[3].value
     attention_vec_size = attn_size  # Size of query vectors for attention.
@@ -643,7 +642,7 @@ def attention_decoder(decoder_inputs,
     for a in xrange(num_heads):
       k = variable_scope.get_variable("AttnW_%d" % a,
                                       [1, 1, attn_size, attention_vec_size])
-      hidden_features.append(nn_ops.conv2d(hidden_att_loc[a], k, [1, 1, 1, 1], "SAME"))
+      hidden_features.append(nn_ops.conv2d(hidden_att_loc[a], k, [1, 1, 1, 1], "SAME"))#modified for OCR-on-the-go for split multi-head attention
       v.append(
           variable_scope.get_variable("AttnV_%d" % a, [attention_vec_size]))
 
@@ -669,7 +668,7 @@ def attention_decoder(decoder_inputs,
           a1 = nn_ops.softmax(s)
           # Now calculate the attention-weighted vector d.
           d = math_ops.reduce_sum(
-              array_ops.reshape(a1, [-1, attn_length, 1, 1]) * hidden_att_loc[a], [1, 2])
+              array_ops.reshape(a1, [-1, attn_length, 1, 1]) * hidden_att_loc[a], [1, 2])#modified for OCR-on-the-go for split multi-head attention
           ds.append(array_ops.reshape(d, [-1, attn_size]))
       return ds
 
