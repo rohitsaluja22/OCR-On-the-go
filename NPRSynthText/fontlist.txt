@@ -1,0 +1,18 @@
+NPR/E-phemera - Penitentiary Gothic Fill.ttf
+NPR/GL-Nummernschild-Eng.otf
+NPR/GL-Nummernschild-Eng.ttf
+NPR/GL-Nummernschild-Mtl.otf
+NPR/GL-Nummernschild-Mtl.ttf
+NPR/HeavyEquipment.otf
+NPR/HeavyEquipment.ttf
+NPR/Kenteken.ttf
+NPR/LicensePlate.ttf
+NPR/LICENSE PLATE USA.ttf
+NPR/MANDATOR.otf
+NPR/MANDATOR.ttf
+NPR/PTF-NORDIC-Rnd-Lt.ttf
+NPR/PTF-NORDIC-Rnd.ttf
+NPR/PTF-NORDIC-Std-Lt.ttf
+NPR/PTF-NORDIC-Std.ttf
+NPR/REGISTRATION PLATE UK.ttf
+NPR/UKNumberPlate.ttf
