@@ -54,18 +54,19 @@ Download code for SynthText in Arabic (as available in python3, later used for a
 git clone https://github.com/adavoudi/SynthText.git
 Save dset.h5 in SynthText/dset_path/
 download fonts from https://www.fontspace.com/category/license%20plate and save to SynthText/data/fonts/NPR/ (create directory NPR in SynthText/data/fonts/)
-cd SynthText/data/newsgroup/
-cp newsgroup.txt newsgroupCopy.txt
-wget 
-cp SynthText/data/fonts/fontlist.txt SynthText/data/fonts/fontlistCopy.txt
+cp NPRSynthText/fontlist.txt SynthText/data/fonts/fontlistCopy.txt
 cp NPRSynthText/fontlist.txt SynthText/data/fonts/
 cp NPRSynthText/ExtractSinglePlates.py SynthText/
 cp SynthText/gen.py SynthText/genCopy.py
 cp SynthText/text_utils.py SynthText/text_utilsCopy.py
 cp NPRSynthText/text_utils.py SynthText/
 cp NPRSynthText/gen.py SynthText/
-cd SynthText/
+cd SynthText/data/newsgroup/
 cp NPRSynthText/newsgroup.txt SynthText/data/newsgroup/newsgroup.txt
+cp newsgroup.txt newsgroupCopy.txt
+wget https://drive.google.com/file/d/1iFrJDSaAxy0ZBhgSu1TCOGF0ekUWd9H-/view?usp=sharing
+unzip newsgroup.txt.zip
+cd ../../../SynthText/
 python3 prep_scripts/update_freq.py #for updating counts for newsgroup.txt related to NPR, if it does not work move update_freq.py to SynthText/ and try running it from there
 python3 invert_font_size.py
 python3 gen.py # this will generate results/SynthNPR.h5, with each scene having multiple-license plate numbers
