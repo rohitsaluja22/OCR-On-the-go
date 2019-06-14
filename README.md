@@ -47,5 +47,25 @@ Change size of training, validation and test data appropriately
 Create folder attention_ocr/datasets/data/fsns/
 Copy Charset charset_sizeNPR.txt/charset_sizeDev.txt from OCR-on-the-go/ to attention_ocr/datasets/data/fsns/
 ```
+6. To generate Synthetic dataset with pyton3.x related to License Plates:-
+```
+generate dset.h5 from 8000 Synthtext backgrounds as described in https://github.com/ankush-me/SynthText
+Download code for SynthText in Arabic (as available in python3, later used for adding Devanagari as well, so used this for License Plates as well):-
+git clone https://github.com/adavoudi/SynthText.git
+Save dset.h5 in SynthText/dset_path/
+download fonts from https://www.fontspace.com/category/license%20plate and save to SynthText/data/fonts/NPR/ (create directory NPR in SynthText/data/fonts/)
+cp SynthText/data/newsgroup/newsgroup.txt SynthText/data/newsgroup/newsgroupCopy.txt
+cp NPRSynthText/newsgroup.txt SynthText/data/newsgroup/newsgroup.txt
+cp SynthText/data/fonts/fontlist.txt SynthText/data/fonts/fontlistCopy.txt
+cp NPRSynthText/fontlist.txt SynthText/data/fonts/
+cd SynthText/
+python3 prep_scripts/update_freq.py #for updating counts for newsgroup.txt related to NPR, if it does not work move update_freq.py to SynthText/ and try running it from there
+python3 invert_font_size.py
+cp SynthText/gen.py SynthText/genCopy.py
+cp NPRSynthText/gen.py SynthText/
+cp SynthText/text_utils.py SynthText/text_utilsCopy.py
+cp NPRSynthText/text_utils.py SynthText/
+python3 gen.py # this will generate results/SynthNPR.h5
+```
 
-6. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
+7. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
