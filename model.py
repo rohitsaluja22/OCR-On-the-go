@@ -163,7 +163,7 @@ class Model(object):
   def default_mparams(self):
     return {
       'conv_tower_fn':
-        ConvTowerParams(final_endpoint='Mixed_6a'),
+        ConvTowerParams(final_endpoint='Mixed_6a'),#modified for OCR-on-the-go for inception_resnet_v2
       'sequence_logit_fn':
         SequenceLogitsParams(
           use_attention=True,
@@ -201,13 +201,13 @@ class Model(object):
     with tf.variable_scope('conv_tower_fn/INCE'):
       if reuse:
         tf.get_variable_scope().reuse_variables()
-      # with slim.arg_scope(inception.inception_v3_arg_scope()):
-      with slim.arg_scope(inception.inception_resnet_v2_arg_scope()):
+      # with slim.arg_scope(inception.inception_v3_arg_scope()):#modified for OCR-on-the-go for inception_resnet_v2
+      with slim.arg_scope(inception.inception_resnet_v2_arg_scope()):#modified for OCR-on-the-go for inception_resnet_v2
         with slim.arg_scope([slim.batch_norm, slim.dropout],
                             is_training=is_training):
-          # net, _ = inception.inception_v3_base(
-            # images, final_endpoint=mparams.final_endpoint)
-            net, _ = inception.inception_resnet_v2_base(images, final_endpoint = mparams.final_endpoint)
+          # net, _ = inception.inception_v3_base(#modified for OCR-on-the-go for inception_resnet_v2
+            # images, final_endpoint=mparams.final_endpoint)#modified for OCR-on-the-go for inception_resnet_v2
+            net, _ = inception.inception_resnet_v2_base(images, final_endpoint = mparams.final_endpoint)#modified for OCR-on-the-go for inception_resnet_v2
 
       return net
 
