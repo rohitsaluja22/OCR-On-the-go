@@ -26,7 +26,7 @@ cp attention_ocr/seq2seq.py attention_ocr/seq2seqCopy.py
 cd ..
 cp OCR-On-the-go/seq2seq.py attention_ocr/
 ```
-If using inception-v3 (default encoder in attention_ocr code), change attention_feectoature_vr_size = 288 in line 9 seq2seq.py.
+If using inception-v3 (default encoder in attention_ocr code), change attention_feature_vector_size = 288 in line 9 seq2seq.py.
 For addition/changes made in all the python scripts w.r.t. attention_ocr code, search for comments with phrase "OCR-on-the-go" in individual files.
 4. For using inception-resenet-v2 instead of inception-v3:
 ```
