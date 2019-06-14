@@ -71,7 +71,7 @@ python3 prep_scripts/update_freq.py #for updating counts for newsgroup.txt relat
 python3 invert_font_size.py
 python3 gen.py # this will generate results/SynthNPR.h5, with each scene having multiple-license plate numbers
 mkdir SinglePlates
-python3 ExtractSinglePlates.py# to generate scenes of size 480 X 260 each with single license plate, and annotations will be stored in 
+python3 ExtractSinglePlates.py > SinglePlateAnnotations.txt # to generate scenes of size 480 X 260 each with single license plate, and annotations will be stored in SinglePlateAnnotations.txt
 ```
 
 7. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
