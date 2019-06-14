@@ -46,7 +46,7 @@ from tensorflow.contrib import slim
 #4 lines added for OCR-on-the-go: for multi-head attention and inception_resnet_v2
 global num_heads
 global attention_feature_vector_size
-attention_feectoature_vr_size = 1088#For OCR-on-the-go: use attention_feature_vector_size = 288 if using inception_v3 (default encoder for attention_ocr)
+attention_feature_vector_size = 1088#For OCR-on-the-go: set to 1088 for inception_resnet_v2, use 288 if using inception_v3 (default encoder for attention_ocr)
 num_heads = 8
 
 def orthogonal_initializer(shape, dtype=tf.float32, *args, **kwargs):
