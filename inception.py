@@ -28,7 +28,7 @@ from tensorflow.contrib.slim.python.slim.nets.inception_v2 import inception_v2_b
 from tensorflow.contrib.slim.python.slim.nets.inception_v3 import inception_v3
 from tensorflow.contrib.slim.python.slim.nets.inception_v3 import inception_v3_arg_scope
 from tensorflow.contrib.slim.python.slim.nets.inception_v3 import inception_v3_base
-#isko change mat karna
+#3 lines Added for OCR-on-the-go for inception_resnet_v2:-
 from tensorflow.contrib.slim.python.slim.nets.inception_resnet_v2 import inception_resnet_v2
 from tensorflow.contrib.slim.python.slim.nets.inception_resnet_v2 import inception_resnet_v2_arg_scope
 from tensorflow.contrib.slim.python.slim.nets.inception_resnet_v2 import inception_resnet_v2_base
