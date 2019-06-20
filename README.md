@@ -73,5 +73,8 @@ python3 gen.py # this will generate results/SynthNPR.h5, with each scene having 
 mkdir SinglePlates
 python3 ExtractSinglePlates.py > SinglePlateAnnotations.txt # to generate scenes of size 480 X 260 each with single license plate, and annotations will be stored in SinglePlateAnnotations.txt
 ```
-
-7. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
+7. To generate Synthetic dataset with pyton3.x related to Multi-lingual Indic Paragraphs:-
+```
+Install pycharm from source after making changes using https://bitbucket.org/pygame/pygame/pull-requests/52/add-complex-text-layout-to-pygamefreetype/diff
+```
+8. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
