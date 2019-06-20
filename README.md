@@ -76,5 +76,6 @@ python3 ExtractSinglePlates.py > SinglePlateAnnotations.txt # to generate scenes
 7. To generate Synthetic dataset with pyton3.x related to Multi-lingual Indic Paragraphs:-
 ```
 Install pycharm from source after making changes using https://bitbucket.org/pygame/pygame/pull-requests/52/add-complex-text-layout-to-pygamefreetype/diff
+Download all unicode fonts from http://indiatyping.com/index.php/download/top-50-hindi-unicode-fonts-free
 ```
 8. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
