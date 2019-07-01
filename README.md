@@ -30,6 +30,7 @@ If using inception-v3 (default encoder in attention_ocr code), change attention_
 For addition/changes made in all the python scripts w.r.t. attention_ocr code, search for comments with phrase "OCR-on-the-go" in individual files.
 4. For using inception-resenet-v2 instead of inception-v3:
 ```
+Change 'final_endpoint' to 'Mixed_6a' in common_flags.py or pass it via arguments
 cp attention_ocr/model.py attention_ocr/modelCopy.py
 cp OCR-on-the-go/model.py attention_ocr/
 cp ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/inception.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/inceptionCopy.py
