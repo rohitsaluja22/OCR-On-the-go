@@ -5,7 +5,7 @@
 Authors:
 Rohit Saluja <rohitsaluja22@gmail.com>,
 Ayush Maheshwari <ayush.hakmn@gmail.com>,
- Ganesh Ramakrishnan, Parag Chaudhuri, and Mark Carman
+Ganesh Ramakrishnan, Parag Chaudhuri, and Mark Carman
 ## Requirements
 1. Copy the attention_ocr code from https://github.com/tensorflow/models/tree/master/research/attention_ocr to your PC
 
@@ -75,7 +75,8 @@ python3 ExtractSinglePlates.py > SinglePlateAnnotations.txt # to generate scenes
 ```
 7. To generate Synthetic dataset with pyton3.x related to Multi-lingual Indic Paragraphs:-
 ```
-Install pycharm from source after making changes using https://bitbucket.org/pygame/pygame/pull-requests/52/add-complex-text-layout-to-pygamefreetype/diff
-Download all unicode fonts from http://indiatyping.com/index.php/download/top-50-hindi-unicode-fonts-free
+1. Install pycharm from source after making changes using https://bitbucket.org/pygame/pygame/pull-requests/52/add-complex-text-layout-to-pygamefreetype/diff
+2. Download all unicode fonts from http://indiatyping.com/index.php/download/top-50-hindi-unicode-fonts-free
+3. Use IndicBackgrounds.h5 file which has frames from around 200 real background videos. Both are shared at https://www.cse.iitb.ac.in/~rohitsaluja/project
 ```
 8. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
