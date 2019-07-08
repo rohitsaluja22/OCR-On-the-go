@@ -22,9 +22,9 @@ pip install --upgrade tensorflow-gpu==1.1.0
 ```
 cp ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/seq2seq.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/seq2seqCopy.py
 cp OCR-on-the-go/seq2seq.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/
-cp attention_ocr/seq2seq.py attention_ocr/seq2seqCopy.py
+cp attention_ocr/sequence_layers.py attention_ocr/sequence_layersCopy.py
 cd ..
-cp OCR-On-the-go/seq2seq.py attention_ocr/
+cp OCR-On-the-go/sequence_layers.py attention_ocr/
 ```
 If using inception-v3 (default encoder in attention_ocr code), change attention_feature_vector_size = 288 in line 9 seq2seq.py.
 For addition/changes made in all the python scripts w.r.t. attention_ocr code, search for comments with phrase "OCR-on-the-go" in individual files.
