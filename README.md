@@ -21,10 +21,10 @@ pip install --upgrade tensorflow-gpu==1.1.0
 3. Copy files for multi-head attention and dropout from this repo to appropriate locations:
 ```
 cp ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/seq2seq.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/seq2seqCopy.py
-cp OCR-on-the-go/seq2seq.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/
+cp OCR-On-the-go-master/seq2seq.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/legacy_seq2seq/python/ops/
 cp attention_ocr/sequence_layers.py attention_ocr/sequence_layersCopy.py
 cd ..
-cp OCR-On-the-go/sequence_layers.py attention_ocr/
+cp OCR-On-the-go-master/sequence_layers.py attention_ocr/
 ```
 If using inception-v3 (default encoder in attention_ocr code), change attention_feature_vector_size = 288 in line 9 seq2seq.py.
 For addition/changes made in all the python scripts w.r.t. attention_ocr code, search for comments with phrase "OCR-on-the-go" in individual files.
@@ -32,10 +32,10 @@ For addition/changes made in all the python scripts w.r.t. attention_ocr code, s
 ```
 Change 'final_endpoint' to 'Mixed_6a' in common_flags.py or pass it via arguments
 cp attention_ocr/model.py attention_ocr/modelCopy.py
-cp OCR-on-the-go/model.py attention_ocr/
+cp OCR-On-the-go-master/model.py attention_ocr/
 cp ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/inception.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/inceptionCopy.py
-cp OCR-on-the-go/inception.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/
-cp OCR-on-the-go/inception_resnet_v2.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/
+cp OCR-On-the-go-master/inception.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/
+cp OCR-On-the-go-master/inception_resnet_v2.py ~/.multi_head/lib/python2.7/site-packages/tensorflow/contrib/slim/python/slim/nets/
 ```
 You can now train and test the models in attention_ocr/ with inception-resenet-v2 and multi-head attention with procedures described in https://github.com/tensorflow/models/tree/master/research/attention_ocr:
 
