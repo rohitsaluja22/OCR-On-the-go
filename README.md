@@ -51,6 +51,7 @@ Copy Charset charset_sizeNPR.txt/charset_sizeDev.txt from OCR-on-the-go/ to atte
 6. To generate Synthetic dataset with pyton3.x related to License Plates:-
 ```
 generate dset.h5 from 8000 Synthtext backgrounds as described in https://github.com/ankush-me/SynthText
+use this https://github.com/JarveeLee/SynthText_Chinese_version/blob/master/add_more_data.py #add try and except if some background images are missing in the source
 Download code for SynthText in Arabic (as available in python3, later used for adding Devanagari as well, so used this for License Plates as well):-
 git clone https://github.com/adavoudi/SynthText.git
 Save dset.h5 in SynthText/dset_path/
