@@ -22,13 +22,13 @@ import pickle
 import codecs
 #import fribidi
 #from gi.repository import HarfBuzz
-
+singdoubFlag = 1
 def sample_weighted(p_dict):# randomly (non uniformly based on keys probably containing count) select samples, p_dict usage: self.p_text = {0.0 : 'WORD', 0.0 : 'LINE', 1.0 : 'PARA'}
     ps = list(p_dict.keys())
     return p_dict[np.random.choice(ps,p=ps)]
 #np.random.choice(5, 3, p=[0.1, 0, 0.3, 0.6, 0])
 #array([3, 3, 0])
-#Added for OCR-on-the-go:-
+
 A = ["AN", "AP", "AR", "AS", "BR", "CG", "CH", "DD", "DL", "DN", "GA", "GJ", "HR", "HP", "JH", "JK", "KA", "KL", "LD", "MH", "ML", "MN", "MP", "MZ", "NL", "OD", "PB", "PY", "RJ", "SK", "TN", "TR", "TS", "UK", "UP", "WB"]
 
 def startCorrect(lines):
@@ -112,7 +112,7 @@ class RenderFont(object):
         self.p_flat = 0.10
 
         # curved baseline:
-        self.p_curved = 1.0
+        self.p_curved = 0.5
         self.baselinestate = BaselineState()# return functions for ax^2 and 2ax
 
         # text-source : gets english text:
@@ -152,38 +152,24 @@ class RenderFont(object):
         for l in lines:
             x = 0 # carriage-return
             y += line_spacing # line-feed
-            #words = l.split(' ') #ROHIT COMMENTED THIS
-
-            #Rohit add the code for spaces inbetween as separater only; useful for centrally alligned text(as spaces are used for allignment)
-            words = []
-            charIndexCrossed = " "# if previous char and next chars are not spaces then only consider space as delimiter
-            wordi = ""
-            for chari in range(len(l)):
-                if (chari == 0):
-                    charPrev = charIndexCrossed;
-                    charNext = l[chari + 1];
-                elif (chari == len(l) -1):
-                    charNext = charIndexCrossed;
-                    charPrev = l[chari - 1];
+            for ch in l: # render each character
+                if ch.isspace(): # just shift
+                    x += space.width
                 else:
-                    charPrev = l[chari - 1];
-                    charNext = l[chari + 1];
-                if ((l[chari] == " ") and (not(charPrev == " ")) and (not(charNext == " "))) and (not(wordi == "")):
-                    words.append(wordi)
-                    wordi = ""
-                else:
-                    wordi += l[chari]
-            if (not(wordi == "")):# appending the last word
-                words.append(wordi)# appending the last word
-
+                    # render the character
+                    ch_bounds = font.render_to(surf, (x,y), ch)
+                    ch_bounds.x = x + ch_bounds.x
+                    ch_bounds.y = y - ch_bounds.y
+                    x += ch_bounds.width
+                    bbs.append(np.array(ch_bounds))
+            '''words = l.split(' ')
             for word in words:
                 #word = fribidi.log2vis(word, None, fribidi.ParType.RTL)
-                #print("3lines", lines, "words", words, "word", word, "fontname", font)
                 ch_bounds = font.render_to(surf, (x,y), word)
                 ch_bounds.x = x + ch_bounds.x
                 ch_bounds.y = y - ch_bounds.y
                 x += ch_bounds.width + space.width
-                bbs.append(np.array(ch_bounds))
+                bbs.append(np.array(ch_bounds))'''
 
         # get the union of characters for cropping:
         r0 = pygame.Rect(bbs[0])
@@ -194,9 +180,11 @@ class RenderFont(object):
 
         # crop the surface to fit the text:
         bbs = np.array(bbs)
+        #print("text+boxes_rendml", words, bbs)
         surf_arr, bbs = crop_safe(pygame.surfarray.pixels_alpha(surf), rect_union, bbs, pad=5)
         surf_arr = surf_arr.swapaxes(0,1)
         #self.visualize_bb(surf_arr,bbs)
+        #print("text+boxes_rendml", words, bbs)
         return surf_arr, words, bbs
 
     def render_curved(self, font, word_text):
@@ -206,10 +194,10 @@ class RenderFont(object):
         # word_text = word_text[::-1]
         word_text = word_text.replace('\u200c', ' ')#replace half space with space
         wl = len(word_text)#ROHIT TAKE CARE OF DEVANAGARI CHARS HERE
-        isword = len(word_text.split())==1
+        isword = len(word_text.split())==1#i.e. a single line plate
 
-        # do curved iff, the length of the word <= 10 
-        if not isword or wl > 10 or np.random.rand() > self.p_curved: #ROHIT TAKE CARE OF DEVANAGARI CHARS HERE
+        # do curved iff, the length of the word <= 10 #ROHIT WL > 10 almost always so depending on p_curved for sing line plates
+        if not isword or np.random.rand() > self.p_curved: #ROHIT TAKE CARE OF DEVANAGARI CHARS HERE
             return self.render_multiline(font, word_text)
 
         #word_text = fribidi.log2vis(word_text, None, fribidi.ParType.RTL)
@@ -228,19 +216,51 @@ class RenderFont(object):
         
         bbs = []
         # place middle char #ROHIT TAKE CARE OF DEVANAGARI CHARS HERE CHANGE TO MIDDLE GLYPH
-        rect = font.get_rect(word_text)
+        rect = font.get_rect(word_text[mid_idx])
         rect.centerx = surf.get_rect().centerx
         rect.centery = surf.get_rect().centery + rect.height
         rect.centery +=  curve[mid_idx]
-        ch_bounds = font.render_to(surf, rect, word_text, rotation=rots[mid_idx])
+        ch_bounds = font.render_to(surf, rect, word_text[mid_idx], rotation=rots[mid_idx])
         ch_bounds.x = rect.x + ch_bounds.x
         ch_bounds.y = rect.y - ch_bounds.y
         mid_ch_bb = np.array(ch_bounds)
-
+        #print("word_text",word_text)
         # render chars to the left and right:
-        ch_idx = []
+        '''ch_idx = []
         bbs.append(mid_ch_bb)
-        ch_idx.append(0)
+        ch_idx.append(0)'''
+        last_rect = rect
+        ch_idx = []
+        for i in range(wl):
+            #skip the middle character
+            if i==mid_idx:
+                bbs.append(mid_ch_bb)
+                ch_idx.append(i)
+                continue
+
+            if i < mid_idx: #left-chars
+                i = mid_idx-1-i
+            elif i==mid_idx+1: #right-chars begin
+                last_rect = rect
+
+            ch_idx.append(i)
+            ch = word_text[i]
+            #print("ch", ch)
+            newrect = font.get_rect(ch)
+            newrect.y = last_rect.y
+            if i > mid_idx:
+                newrect.topleft = (last_rect.topright[0]+2, newrect.topleft[1])
+            else:
+                newrect.topright = (last_rect.topleft[0]-2, newrect.topleft[1])
+            newrect.centery = max(newrect.height, min(fsize[1] - newrect.height, newrect.centery + curve[i]))
+            try:
+                bbrect = font.render_to(surf, newrect, ch, rotation=rots[i])
+            except ValueError:
+                bbrect = font.render_to(surf, newrect, ch)
+            bbrect.x = newrect.x + bbrect.x
+            bbrect.y = newrect.y - bbrect.y
+            bbs.append(np.array(bbrect))
+            last_rect = newrect
 
         # correct the bounding-box order:
         bbs_sequence_order = [None for i in ch_idx]
@@ -256,6 +276,7 @@ class RenderFont(object):
         bbs = np.array(bbs)
         surf_arr, bbs = crop_safe(pygame.surfarray.pixels_alpha(surf), rect_union, bbs, pad=5)
         surf_arr = surf_arr.swapaxes(0,1)
+        #print("text+boxes_rendcurved", words, bbs)
         return surf_arr, word_text, bbs
 
 
@@ -330,28 +351,6 @@ class RenderFont(object):
             coords[1,3,i] += bbs[i,3]
         return coords
 
-    #ROHIT added to remove spaces for centrally alligned text in annotation of NPR
-    def removeEndSpacesForAnnotation(self,l):
-        charIndexCrossed = " "# if previous char and next chars are not spaces then only consider space as delimiter
-        wordi = ""
-        for chari in range(len(l)):
-            if (chari == 0):
-                charPrev = charIndexCrossed;
-                charNext = l[chari + 1];
-            elif (chari == len(l) -1):
-                charNext = charIndexCrossed;
-                charPrev = l[chari - 1];
-            else:
-                charPrev = l[chari - 1];
-                charNext = l[chari + 1];
-            if ((l[chari] == " ") and (not(charPrev == " ")) and (not(charNext == " "))) and (not(wordi == "")):
-                wordi += l[chari]
-            elif (l[chari] == " "):
-                wordi += ""
-            else:
-                wordi += l[chari]
-        return wordi.replace(" \n", "\n").replace("\n ", "\n").replace(" \n ", "\n")
-
 
     def render_sample(self,font,mask):# calling random_curved which is calling random_multiline
         """
@@ -375,12 +374,12 @@ class RenderFont(object):
         ## TODO : change this to allow multiple text instances?
         i = 0
         while i < self.max_shrink_trials and max_font_h > self.min_font_h:
-            #if i > 0:
-                 #print("shrinkage trial : %d"%i, True) #colorize(Color.BLUE, "shrinkage trial : %d"%i, True)
+            if i > 0:
+                 print("shrinkage trial : %d"%i, True) #colorize(Color.BLUE, "shrinkage trial : %d"%i, True)
 
             # sample a random font-height:
             f_h_px = self.sample_font_height_px(self.min_font_h, max_font_h)
-            #print("font-height : %.2f (min: %.2f, max: %.2f)"%(f_h_px, self.min_font_h,max_font_h))
+            print("font-height : %.2f (min: %.2f, max: %.2f)"%(f_h_px, self.min_font_h,max_font_h))
             # convert from pixel-height to font-point-size:
             f_h = self.font_state.get_font_size(font, f_h_px)
 
@@ -392,36 +391,32 @@ class RenderFont(object):
 
             # compute the max-number of lines/chars-per-line:
             nline,nchar = self.get_nline_nchar(mask.shape[:2],f_h,f_h*f_asp) # returns max no of lines and chars which can fit in MASK_SIZED image
-            #print("  > nline = %d, nchar = %d"%(nline, nchar))
+            print("  > nline = %d, nchar = %d"%(nline, nchar))
 
             assert nline >= 1 and nchar >= self.min_nchar
 
             # sample text:
             text_type = sample_weighted(self.p_text) #self.p_text = {0.0 : 'WORD', 0.0 : 'LINE', 1.0 : 'PARA'}
-            text = self.text_source.sample(nline,nchar,text_type)
-            #print("2p1text_type",text_type,"font",font, "text", text, nline, nchar)
+            print("text_type",text_type)
+            text = ""
+            global singdoubFlag
+            while(1):
+                text = self.text_source.sample(nline,nchar,text_type)
+                print("sampled text", singdoubFlag,text)
+                if (len(text.split("\n")[0].replace("-","").replace(" ","").replace(".","")) > 6): 
+                    break
+                if (len(text) > 0) and (singdoubFlag<0) and (len(text.split("\n")[0].replace("-","").replace(" ","").replace(".","")) > 6): 
+                    break #single line break
+                if (len(text) > 0) and (singdoubFlag>1) and (len(text.split("\n")) > 1):
+                    break # double line break
+            singdoubFlag = (singdoubFlag + 1)%3#ask for single line 2 times and double 1 times as prob is like that
             #print(text)
             if len(text)==0 or np.any([len(line)==0 for line in text]):
                 continue
             #print colorize(Color.GREEN, text)
 
-            #Rohit replaced dots and - in wrong fonts
-            if font.name in ["Kenteken",  "License Plate",  "UKNumberPlate",  "REGISTRATION PLATE UK"]:
-                #print("2p2aReplacedDots", text, text.replace(".", " "))
-                text = text.replace(".", " ")
-            if font.name in ["LICENSE PLATE USA",  "UKNumberPlate",  "REGISTRATION PLATE UK"]:
-                #print("2p2bReplacedHyfen", text, text.replace("-", " "))
-                text = text.replace("-", " ")
-            #Rohit replaced dots and - in wrong fonts
-
             # render the text:
-            #print("2p3renderingtxt", text, font.name)
             txt_arr,txt,bb = self.render_curved(font, text)
-
-            #ROHIT added for annotation of NPR to be space free for centre alligned text
-            text = self.removeEndSpacesForAnnotation(text);
-
-
             bb = self.bb_xywh2coords(bb)
 
             # make sure that the text-array is not bigger than mask array:
@@ -433,6 +428,7 @@ class RenderFont(object):
             text_mask,loc,bb, _ = self.place_text([txt_arr], mask, [bb])
             if len(loc) > 0:#successful in placing the text collision-free:
                 return text_mask,loc[0],bb[0],text
+            break
         return #None
 
 
@@ -705,7 +701,7 @@ class TextSource(object):
             return '\n'.join(lines)
         else:
             return []
-    #Modified for OCR-on-the-go
+
     def sample_para(self,nline_max,nchar_max):
         # get number of lines in the paragraph:
         nline = nline_max*sstat.beta.rvs(a=self.p_para_nline[0], b=self.p_para_nline[1]) # 1 ,1 # ulta V
@@ -716,43 +712,54 @@ class TextSource(object):
         nword = [self.p_para_nword[2]*sstat.beta.rvs(a=self.p_para_nword[0], b=self.p_para_nword[1])
                  for _ in range(nline)]
         nword = [max(1,int(np.ceil(n))) for n in nword]
-        '''self.p_line_nline = np.array([0.85, 0.10, 0.05])
-        self.p_line_nword = [4,3,12]  # normal: (mu, std)
-        self.p_para_nline = [1.0,1.0]#[1.7,3.0] # beta: (a, b), max_nline
-        self.p_para_nword = [1.7,3.0,10] # beta: (a,b), max_nword'''
         #print("nword",nword)
 
         lines = self.get_lines(nline, nword, nchar_max, f=0.35)# get chopped words and chars lines
-        #print("1p1herelines ", lines)
+        print("herelines ", lines)
+        newlines = []
+        line1 = ""
         if lines is not None:
-            if (not startCorrect(lines[0])) or ((startCorrect(lines[0])) and (len(lines[0]) < 8) and (len(lines)>1) and (startCorrect(lines[1]))):#or start is currect but len < 8 and next start is correct
-                if len(lines)>1:
-                    if startCorrect(lines[1]): lines = lines[1:]
+            for line in lines:
+                liner = line.replace(" ","").replace("-","").replace(".","")
+                if (len(liner)  > 6): #single line
+                    if(startCorrect(liner) and endCorrect(liner)): newlines.append(line)
+                    line1r = ""
+                    line1 = ""
                 else:
-                    return []
-            if endCorrect(lines[0]) and (len(lines[0]) < 8):# case end HR123 as start is correct as per above if
-                if len(lines)>1 and startCorrect(lines[1]):# chose next correctstart one as surely correct if there
-                    lines = lines[1:]
-                else:
-                    return []
-            #Last line
-            if (not endCorrect(lines[-1])) or (startCorrect(lines[-1]) and (len(lines[-1]) < 8) and len(lines)>1 and (len(lines[-2]) < 8) and (not(startCorrect(lines[-2])))):
-            # or start is correct for last line and not correct for 2nd last line(len <8) i.e. last can be safely removed
-            #	or case HR123 in last line(with 2nd last line not starting with SS)
-                if len(lines)>1:
-                    if endCorrect(lines[-2]):
-                        lines = lines[:-1]# if end is not correct for last line but is correct for second last chose upto 2nd last
+                    if(len(line1) > 0):
+                        if(startCorrect(line1r) and endCorrect(liner)):
+                            newlines.append(line1)
+                            newlines.append(line)
+                            line1r = ""
+                            line1 = ""
+                        else:
+                            line1r = liner
+                            line1 = line
                     else:
-                        return []
+                        line1r = liner
+                        line1 = line
+            '''if (not startCorrect(lines[0])):
+                if len(lines)>1:
+                    if startCorrect(lines[1]) and len(lines[1].replace(" ","").replace("-","").replace(".",""))  > 6 and endCorrect(lines[1]): lines = lines[1:]
+                    elif startCorrect(lines[1]) and len(lines[1].replace(" ","").replace("-","").replace(".",""))  > 6 and not endCorrect(lines[1]) and len(lines)>2: lines = lines[2:]
+                    elif startCorrect(lines[1]) and (len(lines) > 2) and endCorrect(lines[2]): lines = lines[1:]
+                    elif (
+                    else: return []
+            if (not endCorrect(lines[-1])):
+                if len(lines)>1:
+                    if endCorrect(lines[-2]): lines = lines[:-1]
                 else:
-                    return []
-            #print("1p2herelines2 ", lines)
+                    return []'''
+            lines = newlines
+            print("herelines2 ", lines)
             # center align the paragraph-text:
-            #######added for single plate:-
-            #if(len(lines[0].replace(" ","").replace("-","").replace(".","")) > 6): lines=[lines[0]]
-            #else: lines = lines[0:2]
-            if (len(lines)>1):#np.random.rand() < self.center_para:
+            if (len(lines)>0):#np.random.rand() < self.center_para:
                 lines = self.center_align(lines)
-            return '\n'.join(lines)
+            if len(lines) <= 1:
+                return '\n'.join(lines)
+            else:
+                if len(lines[0].replace(" ","").replace("-","").replace(".","")) > 6:
+                    return lines[0]
+                return '\n'.join(lines[:2])
         else:
-            return []
+            return ""
