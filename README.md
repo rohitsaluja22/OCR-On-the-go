@@ -1,5 +1,6 @@
 ## OCR On-the-go
 ## Code for ICDAR 2019 Paper: "OCR On-the-Go: Robust End-to-end Systems for Reading License Plates and Street Signs".
+You can read the paper here: https://www.cse.iitb.ac.in/~rohitsaluja/PID6011503.pdf
 ## Contacts
 
 Authors:
