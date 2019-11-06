@@ -85,12 +85,14 @@ $ cd libraqm
 $ ./autogen.sh
 $ ./configure
 $ make
-$ make install
+$ make install #might need sudo for this
 1. Install pycharm from source after making changes using https://bitbucket.org/pygame/pygame/pull-requests/52/add-complex-text-layout-to-pygamefreetype/diff
 Or alternatively, works on Ubuntu 16.04, in this repo go to pygame-1.9.3:-
 $ cd pygame-1.9.3
 $ sudo rm -fr /usr/local/lib/python3.5/dist-packages/pygame* #OR remove it from site-packages of python3.5 virtual env you are working on
-$ python3.5 setup.py
+$ python3.5 setup.py #might need sudo for this if not in venv
+if you get sdl related error on import pycharm in python3.5:-
+$ sudo apt-get install libsdl-ttf2.0-0
 
 2. Download all unicode fonts from http://indiatyping.com/index.php/download/top-50-hindi-unicode-fonts-free
 3. Use IndicBackgrounds.h5 file which has frames from around 200 real background videos. Both are shared at https://www.cse.iitb.ac.in/~rohitsaluja/project
