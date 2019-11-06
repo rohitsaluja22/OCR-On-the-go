@@ -82,6 +82,7 @@ $ python3 ExtractSinglePlates.py > SinglePlateAnnotations.txt # to generate scen
 $ sudo apt-get install libfreetype6-dev libharfbuzz-dev libfribidi-dev gtk-doc-tools
 $ git clone https://github.com/HOST-Oman/libraqm.git
 $ cd libraqm
+$ ./autogen.sh
 $ ./configure
 $ make
 $ make install
