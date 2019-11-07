@@ -88,6 +88,7 @@ $ make
 $ make install #might need sudo for this
 1. Install pycharm from source after making changes using https://bitbucket.org/pygame/pygame/pull-requests/52/add-complex-text-layout-to-pygamefreetype/diff
 Or alternatively, works on Ubuntu 16.04, in this repo go to pygame-1.9.3:-
+(refer these prerequisites https://askubuntu.com/questions/401342/how-to-download-pygame-in-python3-3)
 $ cd pygame-1.9.3
 $ sudo rm -fr /usr/local/lib/python3.5/dist-packages/pygame* #OR remove it from site-packages of python3.5 virtual env you are working on
 $ python3.5 setup.py #might need sudo for this if not in venv
