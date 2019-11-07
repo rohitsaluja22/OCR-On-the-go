@@ -78,7 +78,7 @@ $ python3 ExtractSinglePlates.py > SinglePlateAnnotations.txt # to generate scen
 ```
 7. To generate Synthetic dataset with pyton3.x related to Multi-lingual Indic Paragraphs:-
 ```
-0. Install https://github.com/HOST-Oman/libraqm
+0. Install https://github.com/HOST-Oman/libraqm (we first installed harfbuzz-2.4.0 and then freetype-2.10.0 from source code)
 $ sudo apt-get install libfreetype6-dev libharfbuzz-dev libfribidi-dev gtk-doc-tools
 $ git clone https://github.com/HOST-Oman/libraqm.git
 $ cd libraqm
