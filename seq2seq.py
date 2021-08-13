@@ -628,8 +628,8 @@ def attention_decoder(decoder_inputs,
     #11 lines added for OCR-on-the-go for split multi-head attention
     #attention_feature_vector_size
     attention_vec_size = attn_size  # Size of query vectors for attention.
-    hidden_p1 = hidden[:,:,:,:attention_feature_vector_size]
-    hidden_p2 = hidden[:,:,:,attention_feature_vector_size:]
+    hidden_p1 = hidden[:,:,:,:attention_feature_vector_size]#attention_feature_vector_size is depth (green + blue in paper)
+    hidden_p2 = hidden[:,:,:,attention_feature_vector_size:]# part constitues one hot encoding # orange in paper
     hidden_p1_temp = tf.split(hidden_p1, num_heads, axis=3)
     hidden_att_loc =[] 
     for a in xrange(num_heads):
@@ -661,11 +661,11 @@ def attention_decoder(decoder_inputs,
       for a in xrange(num_heads):
         with variable_scope.variable_scope("Attention_%d" % a):
           y = linear(query, attention_vec_size, True)
-          y = array_ops.reshape(y, [-1, 1, 1, attention_vec_size])
+          y = array_ops.reshape(y, [-1, 1, 1, attention_vec_size]) #B, 1,1,d)
           # Attention mask is a softmax of v^T * tanh(...).
           s = math_ops.reduce_sum(v[a] * math_ops.tanh(hidden_features[a] + y),
-                                  [2, 3])
-          a1 = nn_ops.softmax(s)
+                                  [2, 3]) # hidden_features[a] + y -> (B, w,h,d) | v[a] * math_ops.tanh(hidden_features[a] + y) -> (B, w,?,1,h) as v[a] is 1Xd
+          a1 = nn_ops.softmax(s) # a1 should b, w,h
           # Now calculate the attention-weighted vector d.
           d = math_ops.reduce_sum(
               array_ops.reshape(a1, [-1, attn_length, 1, 1]) * hidden_att_loc[a], [1, 2])#modified for OCR-on-the-go for split multi-head attention
