@@ -7,6 +7,12 @@ Authors:
 Rohit Saluja <rohitsaluja22@gmail.com>,
 Ayush Maheshwari <ayush.hakmn@gmail.com>,
 Ganesh Ramakrishnan, Parag Chaudhuri, and Mark Carman
+
+## Annotation Framework: StreetOCRCorrect
+
+Our annotation framework for license plates can be found here: https://github.com/rohitsaluja22/StreetOCRCorrect
+Feel free to update it for street signs and share
+
 ## Requirements
 1. Copy the attention_ocr code from https://github.com/tensorflow/models/tree/master/research/attention_ocr to your PC
 
