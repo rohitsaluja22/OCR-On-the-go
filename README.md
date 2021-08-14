@@ -10,8 +10,8 @@ Ganesh Ramakrishnan, Parag Chaudhuri, and Mark Carman
 
 ## Annotation Framework: StreetOCRCorrect
 
-Our annotation framework for license plates can be found here: https://github.com/rohitsaluja22/StreetOCRCorrect
-Feel free to update it for street signs and share
+Our annotation framework for license plates can be found here: https://github.com/rohitsaluja22/StreetOCRCorrect.
+Feel free to update it for street signs and share.
 
 ## Requirements
 1. Copy the attention_ocr code from https://github.com/tensorflow/models/tree/master/research/attention_ocr to your PC
@@ -106,3 +106,18 @@ $ sudo apt-get install libsdl-ttf2.0-0
 4. Go to SyntheDevEn and follow instructions similar to SynthNPR
 ```
 8. For fsns dataset refer https://github.com/tensorflow/models/tree/master/research/attention_ocr
+
+
+##Citation
+If you use this work, please add following citation:-
+
+```
+@inproceedings{saluja2019ocr,
+  title={OCR {O}n-the-{G}o: {R}obust {E}nd-to-end {S}ystems for {R}eading {L}icense {P}lates \& {S}treet {S}igns},
+  author={Saluja, Rohit and Maheshwari, Ayush and Ramakrishnan, Ganesh and Chaudhuri, Parag and Carman, Mark},
+  booktitle={2019 International Conference on Document Analysis and Recognition (ICDAR)},
+  pages={154--159},
+  year={2019},
+  organization={IEEE}
+}
+```
